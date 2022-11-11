@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TODOリスト</title>
+    <style>
+      html {
+        background-color: rgb(240, 240, 240);
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <h1>TODO List</h1>
+    <div>
+      <ul id="todo-container"></ul>
+    </div>
+
+    <script>
+      fetch('./api/taskManagement/tasks', { method: 'GET' })
+        .then((response) => {
+          return response.json();
+        })
+        .then((resultAndTaskList) => {
+          // id="todo-container"要素を取得する
+          const todoContainer = document.querySelector('#todo-container');
+          // コンテナの中身を全部消す
+          todoContainer.innerHTML = '';
+          // create table header
+          headerList = [
+            'ID',
+            'タスク内容',
+            'ステータス',
+            '発生日',
+            '期限',
+            '仕事/プライベート',
+          ];
+          const tr = document.createElement('tr');
+          todoContainer.appendChild(tr);
+          headerList.forEach((header) => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            tr.appendChild(th);
+          });
+
+          // JSONの各要素に対して
+          resultAndTaskList.data.forEach((task) => {
+            // create table row
+            const tr = document.createElement('tr');
+            todoContainer.appendChild(tr);
+            // create table data of row
+            const objArray = Object.entries(task);
+            objArray.forEach((arr) => {
+              const td = document.createElement('td');
+              td.textContent = arr[1];
+              tr.appendChild(td);
+            });
+          });
+        });
+    </script>
+  </body>
+</html>

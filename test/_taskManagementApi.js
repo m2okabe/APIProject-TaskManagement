@@ -29,8 +29,7 @@ describe('TaskManagement API Server', () => {
       id: 1,
       taskDescription: 'descriptionTest1',
       taskStatus: 'completed',
-      // [option] remove timezone, change UTC→JST
-      dateOfTaskGenerated: '2022-09-30T15:00:00.000Z',
+      dateOfTaskGenerated: '2022-10-01 00:00:00',
       // [option] replace null with empty
       dateOfDeadline: null,
       businessOrPrivateLife: 'business',
@@ -42,8 +41,7 @@ describe('TaskManagement API Server', () => {
       id: 1,
       taskDescription: 'descriptionTest1',
       taskStatus: 'completed',
-      // [option] remove timezone, change UTC→JST
-      dateOfTaskGenerated: '2022-09-30T15:00:00.000Z',
+      dateOfTaskGenerated: '2022-10-01 00:00:00',
       // [option] replace null with empty
       dateOfDeadline: null,
       businessOrPrivateLife: 'business',
@@ -52,8 +50,7 @@ describe('TaskManagement API Server', () => {
       id: 2,
       taskDescription: 'descriptionTest2',
       taskStatus: 'working',
-      // [option] remove timezone, change UTC→JST
-      dateOfTaskGenerated: '2022-10-01T15:00:00.000Z',
+      dateOfTaskGenerated: '2022-10-02 00:00:00',
       // [option] replace null with empty
       dateOfDeadline: null,
       businessOrPrivateLife: 'business',
@@ -62,8 +59,7 @@ describe('TaskManagement API Server', () => {
       id: 3,
       taskDescription: 'descriptionTest3',
       taskStatus: 'waiting',
-      // [option] remove timezone, change UTC→JST
-      dateOfTaskGenerated: '2022-10-02T15:00:00.000Z',
+      dateOfTaskGenerated: '2022-10-03 00:00:00',
       // [option] replace null with empty
       dateOfDeadline: null,
       businessOrPrivateLife: 'private',
@@ -74,7 +70,6 @@ describe('TaskManagement API Server', () => {
     id: 4,
     taskDescription: 'descriptionTest4',
     taskStatus: 'waiting',
-    // [option] remove timezone, change UTC→JST
     dateOfTaskGenerated: '2022-10-04',
     // [option] replace null with empty
     dateOfDeadline: null,
@@ -85,7 +80,6 @@ describe('TaskManagement API Server', () => {
     id: 4,
     taskDescription: 'descriptionTest4Update',
     taskStatus: 'completed',
-    // [option] remove timezone, change UTC→JST
     dateOfTaskGenerated: '2022-10-04',
     // [option] replace null with empty
     dateOfDeadline: null,

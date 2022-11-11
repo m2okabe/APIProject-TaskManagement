@@ -1,0 +1,23 @@
+table {
+  border-collapse: separate;
+  border-spacing: 5px;
+  width: 100%;
+}
+
+th,
+td {
+  border-radius: 1px;
+  text-align: center;
+  padding: 12px 15px;
+}
+
+th {
+  background-color: #c79852;
+  color: white;
+  border: solid 1px #927141;
+}
+
+td {
+  background-color: #e4d4bc;
+  border: solid 1px #af9d85;
+}

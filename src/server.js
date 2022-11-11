@@ -4,18 +4,7 @@ const setupServer = () => {
   // express setting
   const app = express();
   app.use(express.json());
-
-  // response object
-  // set initial value
-  // [option] commonize
-  const responseObj = {
-    result: {
-      status: 'SUCCESS',
-      errorType: '',
-      message: 'succeeded',
-    },
-    data: {},
-  };
+  app.use(express.static('web'));
 
   // POST API
   app.post('/api/taskManagement/tasks', taskController.insertOrUpdateTask);

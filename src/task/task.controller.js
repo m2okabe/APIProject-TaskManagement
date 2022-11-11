@@ -1,5 +1,9 @@
 const taskModel = require('./task.model');
 const response = require('../response');
+const fdateFnsTimezone = require('date-fns-timezone');
+
+const FORMAT = 'YYYY-MM-DD HH:mm:ss';
+const TIME_ZONE_TOKYO = 'Asia/Tokyo';
 // [option] replaceNullWithEmpty array/obj
 // const replaceNullWithEmpty = (obj) => {
 //   for (let i in obj) {
@@ -9,6 +13,29 @@ const response = require('../response');
 //   }
 //   return obj;
 // };
+
+const convertUtcToJst = (obj) => {
+  const dateOfTaskGenerated = new Date(obj.dateOfTaskGenerated);
+  obj.dateOfTaskGenerated = fdateFnsTimezone.formatToTimeZone(
+    dateOfTaskGenerated,
+    FORMAT,
+    {
+      timeZone: TIME_ZONE_TOKYO,
+    }
+  );
+  let dateOfDeadline;
+  if (obj.dateOfDeadline !== null) {
+    dateOfDeadline = new Date(obj.dateOfDeadline);
+    obj.dateOfDeadline = fdateFnsTimezone.formatToTimeZone(
+      dateOfDeadline,
+      FORMAT,
+      {
+        timeZone: TIME_ZONE_TOKYO,
+      }
+    );
+  }
+  return obj;
+};
 
 module.exports = {
   //[option] add getAll
@@ -21,21 +48,28 @@ module.exports = {
     // [option] validation check
 
     // select task records
-    // get query string
     // [option] multiple keys
-
     let task;
     if (req.query.id === undefined) {
       task = await taskModel.getAll();
-      responseObj.data = task;
+      // utc→jst
+      // set selected data
+      const taskConverted = [];
+      for (let i = 0; i < task.length; i++) {
+        taskConverted.push(convertUtcToJst(task[i]));
+      }
+      //responseObj.data = task;
+      responseObj.data = taskConverted;
     } else {
       const id = parseInt(req.query.id);
       task = await taskModel.getById(id);
+      // utc→jst
+      task = convertUtcToJst(task);
+      // set selected data
       responseObj.data = [task];
     }
 
     // set response
-    // set selected data
     res.json(responseObj);
   },
 
@@ -69,6 +103,7 @@ module.exports = {
     if (task === undefined) {
       await taskModel.insertTask(payload);
     } else {
+      // [option] unique check
       await taskModel.updateTask(req.body.id, payload);
     }
 
@@ -84,7 +119,6 @@ module.exports = {
     // [option] validation check
 
     // delete task records
-    // get query string
     const id = parseInt(req.query.id);
     await taskModel.deleteTask(id);
 
