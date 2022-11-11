@@ -4,7 +4,6 @@ const response = require('../response');
 // const replaceNullWithEmpty = (obj) => {
 //   for (let i in obj) {
 //     if (obj[i] === null) {
-//       console.log(obj[i]);
 //       obj[i] = '';
 //     }
 //   }
@@ -23,13 +22,20 @@ module.exports = {
 
     // select task records
     // get query string
-    // [option] multiple keys, get all
-    const id = parseInt(req.query.id);
-    const task = await taskModel.getById(id);
+    // [option] multiple keys
+
+    let task;
+    if (req.query.id === undefined) {
+      task = await taskModel.getAll();
+      responseObj.data = task;
+    } else {
+      const id = parseInt(req.query.id);
+      task = await taskModel.getById(id);
+      responseObj.data = [task];
+    }
 
     // set response
     // set selected data
-    responseObj.data = [task];
     res.json(responseObj);
   },
 
@@ -81,6 +87,7 @@ module.exports = {
     // get query string
     const id = parseInt(req.query.id);
     await taskModel.deleteTask(id);
+
     // set response
     res.json(responseObj);
   },

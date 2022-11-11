@@ -28,6 +28,24 @@ module.exports = {
   },
 
   /**
+   * @return {Promise<Object>} A promise that resolves to the task that matches the id.
+   */
+  getAll() {
+    // key: return object key
+    // value: table column name
+    return knex
+      .select({
+        id: 'id',
+        taskDescription: 'task_description',
+        taskStatus: 'task_status',
+        dateOfTaskGenerated: 'date_of_task_generated',
+        dateOfDeadline: 'date_of_deadline',
+        businessOrPrivateLife: 'business_or_private_life',
+      })
+      .from(TASK_TABLE);
+  },
+
+  /**
    * @param {Object} task - The new task data to add.
    * @return {Promise<number>} A promise that resolves to the id of created task.
    */

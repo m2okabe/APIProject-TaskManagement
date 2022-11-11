@@ -37,13 +37,33 @@ describe('TaskManagement API Server', () => {
     },
   ];
 
-  const expectDataTask4 = [
+  const expectDataTask123 = [
     {
-      id: 4,
-      taskDescription: 'descriptionTest4',
+      id: 1,
+      taskDescription: 'descriptionTest1',
+      taskStatus: 'completed',
+      // [option] remove timezone, change UTC→JST
+      dateOfTaskGenerated: '2022-09-30T15:00:00.000Z',
+      // [option] replace null with empty
+      dateOfDeadline: null,
+      businessOrPrivateLife: 'business',
+    },
+    {
+      id: 2,
+      taskDescription: 'descriptionTest2',
+      taskStatus: 'working',
+      // [option] remove timezone, change UTC→JST
+      dateOfTaskGenerated: '2022-10-01T15:00:00.000Z',
+      // [option] replace null with empty
+      dateOfDeadline: null,
+      businessOrPrivateLife: 'business',
+    },
+    {
+      id: 3,
+      taskDescription: 'descriptionTest3',
       taskStatus: 'waiting',
       // [option] remove timezone, change UTC→JST
-      dateOfTaskGenerated: '2022-10-33T15:00:00.000Z',
+      dateOfTaskGenerated: '2022-10-02T15:00:00.000Z',
       // [option] replace null with empty
       dateOfDeadline: null,
       businessOrPrivateLife: 'private',
@@ -94,13 +114,6 @@ describe('TaskManagement API Server', () => {
     JSON.parse(res.text).data.should.deep.equal(emptyObj);
   });
 
-  // TEST GET API
-  it(`GET /api/taskManagement/tasks?id=1 return result obj and data`, async () => {
-    const res = await request.get('/api/taskManagement/tasks').query({ id: 1 });
-    JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
-    JSON.parse(res.text).data.should.deep.equal(expectDataTask1);
-  });
-
   // TEST DELETE API
   it(`DELETE /api/taskManagement/tasks?id=4 return result obj and empty data`, async () => {
     const res = await request
@@ -108,5 +121,19 @@ describe('TaskManagement API Server', () => {
       .query({ id: 4 });
     JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
     JSON.parse(res.text).data.should.deep.equal(emptyObj);
+  });
+
+  // TEST GET API getById
+  it(`GET /api/taskManagement/tasks?id=1 return result obj and data`, async () => {
+    const res = await request.get('/api/taskManagement/tasks').query({ id: 1 });
+    JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
+    JSON.parse(res.text).data.should.deep.equal(expectDataTask1);
+  });
+
+  // TEST GET API getAll
+  it(`GET /api/taskManagement/tasks return result obj and data`, async () => {
+    const res = await request.get('/api/taskManagement/tasks');
+    JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
+    JSON.parse(res.text).data.should.deep.equal(expectDataTask123);
   });
 });
