@@ -1,5 +1,5 @@
 const taskModel = require('./task.model');
-
+const response = require('../response');
 // [option] replaceNullWithEmpty array/obj
 // const replaceNullWithEmpty = (obj) => {
 //   for (let i in obj) {
@@ -17,15 +17,7 @@ module.exports = {
   async getTask(req, res) {
     // response object
     // set initial value
-    // [option] commonize
-    const responseObj = {
-      result: {
-        status: 'SUCCESS',
-        errorType: '',
-        message: 'succeeded',
-      },
-      data: {},
-    };
+    const responseObj = new response();
 
     // [option] validation check
 
@@ -46,15 +38,7 @@ module.exports = {
 
     // response object
     // set initial value
-    // [option] commonize
-    const responseObj = {
-      result: {
-        status: 'SUCCESS',
-        errorType: '',
-        message: 'succeeded',
-      },
-      data: {},
-    };
+    const responseObj = new response();
 
     // refill
     const {
@@ -89,15 +73,7 @@ module.exports = {
   async deleteTask(req, res) {
     // response object
     // set initial value
-    // [option] commonize
-    const responseObj = {
-      result: {
-        status: 'SUCCESS',
-        errorType: '',
-        message: 'succeeded',
-      },
-      data: {},
-    };
+    const responseObj = new response();
 
     // [option] validation check
 
