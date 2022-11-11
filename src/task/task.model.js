@@ -26,4 +26,21 @@ module.exports = {
       })
       .first();
   },
+
+  /**
+   * @param {Object} task - The new task data to add.
+   * @return {Promise<number>} A promise that resolves to the id of created task.
+   */
+  insertTask(task) {
+    return knex(TASK_TABLE).insert(task);
+  },
+
+  /**
+   * @param {number} id - The unique id of the existing task.
+   * @param {Object} task - The task data to change.
+   * @return {Promise<number>} A promise that resolves to the id of the updated task.
+   */
+  updateTask(id, task) {
+    return knex(TASK_TABLE).where('id', id).update(task);
+  },
 };

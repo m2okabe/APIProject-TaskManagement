@@ -24,7 +24,7 @@ describe('TaskManagement API Server', () => {
     message: 'succeeded',
   };
 
-  const dataTaskId1 = [
+  const expectDataTask1 = [
     {
       id: 1,
       taskDescription: 'descriptionTest1',
@@ -37,23 +37,72 @@ describe('TaskManagement API Server', () => {
     },
   ];
 
-  // it(`POST /api/taskManagement/tasks return result obj`, async () => {
-  //   const res = await request.get('/api/taskManagement/tasks');
-  //   JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
-  // });
+  const expectDataTask4 = [
+    {
+      id: 4,
+      taskDescription: 'descriptionTest4',
+      taskStatus: 'waiting',
+      // [option] remove timezone, change UTC→JST
+      dateOfTaskGenerated: '2022-10-33T15:00:00.000Z',
+      // [option] replace null with empty
+      dateOfDeadline: null,
+      businessOrPrivateLife: 'private',
+    },
+  ];
+
+  const dataTaskId4 = {
+    id: 4,
+    taskDescription: 'descriptionTest4',
+    taskStatus: 'waiting',
+    // [option] remove timezone, change UTC→JST
+    dateOfTaskGenerated: '2022-10-04',
+    // [option] replace null with empty
+    dateOfDeadline: null,
+    businessOrPrivateLife: 'private',
+  };
+
+  const dataTaskId4Update = {
+    id: 4,
+    taskDescription: 'descriptionTest4Update',
+    taskStatus: 'completed',
+    // [option] remove timezone, change UTC→JST
+    dateOfTaskGenerated: '2022-10-04',
+    // [option] replace null with empty
+    dateOfDeadline: null,
+    businessOrPrivateLife: 'private',
+  };
+
+  const emptyObj = {};
+
+  // TEST POST API INSERT
+  // [option] confirm table data
+  it(`POST /api/taskManagement/tasks return result and empty data`, async () => {
+    const res = await request
+      .post('/api/taskManagement/tasks')
+      .send(dataTaskId4);
+    JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
+    JSON.parse(res.text).data.should.deep.equal(emptyObj);
+  });
+
+  // TEST POST API UPDATE
+  // [option] confirm table data
+  it(`POST /api/taskManagement/tasks return result and empty data`, async () => {
+    const res = await request
+      .post('/api/taskManagement/tasks')
+      .send(dataTaskId4Update);
+    JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
+    JSON.parse(res.text).data.should.deep.equal(emptyObj);
+  });
 
   // TEST GET API
-  it(`GET /api/taskManagement/tasks?id=1 return result obj`, async () => {
+  it(`GET /api/taskManagement/tasks?id=1 return result obj and data`, async () => {
     const res = await request.get('/api/taskManagement/tasks').query({ id: 1 });
     JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
-  });
-  it(`GET /api/taskManagement/tasks?id=1 return data`, async () => {
-    const res = await request.get('/api/taskManagement/tasks').query({ id: 1 });
-    JSON.parse(res.text).data.should.deep.equal(dataTaskId1);
+    JSON.parse(res.text).data.should.deep.equal(expectDataTask1);
   });
 
-  // it(`DELETE /api/taskManagement/tasks return result obj`, async () => {
-  //   const res = await request.get('/api/taskManagement/tasks');
-  //   JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
-  // });
+  it(`DELETE /api/taskManagement/tasks return result obj`, async () => {
+    const res = await request.get('/api/taskManagement/tasks');
+    JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
+  });
 });

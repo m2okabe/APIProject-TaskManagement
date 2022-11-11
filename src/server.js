@@ -18,15 +18,7 @@ const setupServer = () => {
   };
 
   // POST API
-  app.post('/api/taskManagement/tasks', (req, res) => {
-    // [option] validation check
-
-    // insert or update 1task record
-    // get reqest body
-
-    // set response
-    res.json(responseObj);
-  });
+  app.post('/api/taskManagement/tasks', taskController.insertOrUpdateTask);
 
   // GET API
   app.get('/api/taskManagement/tasks', taskController.getTask);
