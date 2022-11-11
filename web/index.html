@@ -2,38 +2,33 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <title>TODOリスト</title>
-    <style>
-      html {
-        background-color: rgb(240, 240, 240);
-      }
-    </style>
+    <title>ToDoList</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
-    <h1>TODO List</h1>
+    <div class="header-container">
+      <h1>ToDoList</h1>
     <div>
       <ul id="todo-container"></ul>
     </div>
-
+    <div class="button001">
+      <button onclick="location.href='./insert.html'">move to insert/update</button>
+    </div>
     <script>
       fetch('./api/taskManagement/tasks', { method: 'GET' })
         .then((response) => {
           return response.json();
         })
         .then((resultAndTaskList) => {
-          // id="todo-container"要素を取得する
           const todoContainer = document.querySelector('#todo-container');
-          // コンテナの中身を全部消す
-          todoContainer.innerHTML = '';
           // create table header
           headerList = [
             'ID',
-            'タスク内容',
-            'ステータス',
-            '発生日',
-            '期限',
-            '仕事/プライベート',
+            'description',
+            'status',
+            'date of task generated',
+            'date of deadline',
+            'business or private life',
           ];
           const tr = document.createElement('tr');
           todoContainer.appendChild(tr);
@@ -42,8 +37,6 @@
             th.textContent = header;
             tr.appendChild(th);
           });
-
-          // JSONの各要素に対して
           resultAndTaskList.data.forEach((task) => {
             // create table row
             const tr = document.createElement('tr');

@@ -12,12 +12,54 @@ td {
 }
 
 th {
-  background-color: #c79852;
-  color: white;
-  border: solid 1px #927141;
+  background-color: #9cc0cc;
+  border: solid 1px #6e7783;
 }
 
 td {
-  background-color: #e4d4bc;
-  border: solid 1px #af9d85;
+  border: solid 1px #6e7783;
+}
+
+.button001 button {
+  background: #f0efef;
+  border-radius: 3px;
+  position: relative;
+  justify-content: space-around;
+  align-items: center;
+  margin-left: 40px;
+  max-width: 280px;
+  padding: 10px 25px;
+  transition: 0.3s ease-in-out;
+  font-weight: 700;
+  color: #373d41;
+  border-color: #bfc5ca;
+}
+.button001 button:hover {
+  background: #214f69;
+  color: #fff;
+  border-color: #bfc5ca;
+}
+.button001 button:after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-top: 3px solid #6e7783;
+  border-right: 3px solid #6e7783;
+  transform: rotate(45deg) translateY(-50%);
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  border-radius: 1px;
+  transition: 0.3s ease-in-out;
+  border-color: #373d41;
+}
+.button001 button:hover:after {
+  border-color: #fff;
+}
+.messageArea {
+  padding-left: 20px;
+}
+#message {
+  color: #398ab9;
+  font-weight: 600;
 }
