@@ -24,15 +24,7 @@ const setupServer = () => {
   app.get('/api/taskManagement/tasks', taskController.getTask);
 
   // DELETE delete
-  app.delete('/api/taskManagement/tasks', (req, res) => {
-    // [option] validation check
-
-    // delete task records
-    // get query string
-
-    // set response
-    res.json(responseObj);
-  });
+  app.delete('/api/taskManagement/tasks', taskController.deleteTask);
 
   return app;
 };

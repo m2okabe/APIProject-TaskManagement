@@ -101,8 +101,12 @@ describe('TaskManagement API Server', () => {
     JSON.parse(res.text).data.should.deep.equal(expectDataTask1);
   });
 
-  it(`DELETE /api/taskManagement/tasks return result obj`, async () => {
-    const res = await request.get('/api/taskManagement/tasks');
+  // TEST DELETE API
+  it(`DELETE /api/taskManagement/tasks?id=4 return result obj and empty data`, async () => {
+    const res = await request
+      .delete('/api/taskManagement/tasks')
+      .query({ id: 4 });
     JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
+    JSON.parse(res.text).data.should.deep.equal(emptyObj);
   });
 });

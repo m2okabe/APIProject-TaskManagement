@@ -43,4 +43,12 @@ module.exports = {
   updateTask(id, task) {
     return knex(TASK_TABLE).where('id', id).update(task);
   },
+
+  /**
+   * @param {number} id - The unique id of the existing task.
+   * @return {Promise<number>} A promise that resolves to the id of the updated task.
+   */
+  deleteTask(id) {
+    return knex(TASK_TABLE).where('id', id).delete();
+  },
 };

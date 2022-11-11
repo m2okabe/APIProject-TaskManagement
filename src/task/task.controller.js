@@ -85,4 +85,27 @@ module.exports = {
     // set response
     res.json(responseObj);
   },
+
+  async deleteTask(req, res) {
+    // response object
+    // set initial value
+    // [option] commonize
+    const responseObj = {
+      result: {
+        status: 'SUCCESS',
+        errorType: '',
+        message: 'succeeded',
+      },
+      data: {},
+    };
+
+    // [option] validation check
+
+    // delete task records
+    // get query string
+    const id = parseInt(req.query.id);
+    await taskModel.deleteTask(id);
+    // set response
+    res.json(responseObj);
+  },
 };
