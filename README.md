@@ -50,7 +50,7 @@
   },
   "data": [
     {
-      "id": "12",
+      "id": 12,
       "taskDescription": "answer survey",
       "taskStatus": "working",
       "dateOfTaskGenerated": "2022-10-12",
@@ -58,7 +58,7 @@
       "businessOrPrivateLife": "business"
     },
     {
-      "id": "14",
+      "id": 14,
       "taskDescription": "review API test ducument",
       "taskStatus": "waiting",
       "dateOfTaskGenerated": "2022-10-14",
@@ -120,8 +120,11 @@ errorType バリエーション
 | 2   | タスク内容       | タスク状況  | タスク発生タイムスタンプ | 期限タイムスタンプ | private                  |
 
 task_status バリエーション
-「着手」＝　 working
-「未着手」＝ waiting
-「完了」＝ completed
-「中止」＝ discontinued
-「保留」＝ pending
+
+```
+working：着手
+waiting：未着手
+completed：完了
+discontinued：中止
+pending：保留
+```

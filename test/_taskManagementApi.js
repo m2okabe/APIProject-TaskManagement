@@ -24,18 +24,36 @@ describe('TaskManagement API Server', () => {
     message: 'succeeded',
   };
 
-  it(`POST /api/taskManagement/tasks return result obj`, async () => {
-    const res = await request.get('/api/taskManagement/tasks');
+  const dataTaskId1 = [
+    {
+      id: 1,
+      taskDescription: 'descriptionTest1',
+      taskStatus: 'completed',
+      // [option] remove timezone, change UTC→JST
+      dateOfTaskGenerated: '2022-09-30T15:00:00.000Z',
+      // [option] replace null with empty
+      dateOfDeadline: null,
+      businessOrPrivateLife: 'business',
+    },
+  ];
+
+  // it(`POST /api/taskManagement/tasks return result obj`, async () => {
+  //   const res = await request.get('/api/taskManagement/tasks');
+  //   JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
+  // });
+
+  // TEST GET API
+  it(`GET /api/taskManagement/tasks?id=1 return result obj`, async () => {
+    const res = await request.get('/api/taskManagement/tasks').query({ id: 1 });
     JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
+  });
+  it(`GET /api/taskManagement/tasks?id=1 return data`, async () => {
+    const res = await request.get('/api/taskManagement/tasks').query({ id: 1 });
+    JSON.parse(res.text).data.should.deep.equal(dataTaskId1);
   });
 
-  it(`GET /api/taskManagement/tasks return result obj`, async () => {
-    const res = await request.get('/api/taskManagement/tasks');
-    JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
-  });
-
-  it(`DELETE /api/taskManagement/tasks return result obj`, async () => {
-    const res = await request.get('/api/taskManagement/tasks');
-    JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
-  });
+  // it(`DELETE /api/taskManagement/tasks return result obj`, async () => {
+  //   const res = await request.get('/api/taskManagement/tasks');
+  //   JSON.parse(res.text).result.should.deep.equal(responseResultSucceeded);
+  // });
 });

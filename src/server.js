@@ -1,4 +1,4 @@
-const pokeData = require('./data');
+const taskController = require('./task/task.controller');
 const express = require('express');
 const setupServer = () => {
   // express setting
@@ -7,6 +7,7 @@ const setupServer = () => {
 
   // response object
   // set initial value
+  // [option] commonize
   const responseObj = {
     result: {
       status: 'SUCCESS',
@@ -28,16 +29,7 @@ const setupServer = () => {
   });
 
   // GET API
-  app.get('/api/taskManagement/tasks', (req, res) => {
-    // [option] validation check
-
-    // select task records
-    // delete task records
-
-    // set response
-    // set selected data
-    res.json(responseObj);
-  });
+  app.get('/api/taskManagement/tasks', taskController.getTask);
 
   // DELETE delete
   app.delete('/api/taskManagement/tasks', (req, res) => {
