@@ -42,7 +42,17 @@ module.exports = {
         dateOfDeadline: 'date_of_deadline',
         businessOrPrivateLife: 'business_or_private_life',
       })
-      .from(TASK_TABLE);
+      .from(TASK_TABLE)
+      .orderBy('id', 'asc');
+  },
+
+  /**
+   * @return {Promise<Object>} A promise that resolves to the task that max id.
+   */
+  getMaxId() {
+    // key: return object key
+    // value: table column name
+    return knex(TASK_TABLE).max('id').first();
   },
 
   /**

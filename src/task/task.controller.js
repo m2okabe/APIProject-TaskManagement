@@ -1,18 +1,17 @@
 const taskModel = require('./task.model');
 const response = require('../response');
 const fdateFnsTimezone = require('date-fns-timezone');
-
 const FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const TIME_ZONE_TOKYO = 'Asia/Tokyo';
-// [option] replaceNullWithEmpty array/obj
-// const replaceNullWithEmpty = (obj) => {
-//   for (let i in obj) {
-//     if (obj[i] === null) {
-//       obj[i] = '';
-//     }
-//   }
-//   return obj;
-// };
+
+const replaceEmptyWithNull = (obj) => {
+  for (let i in obj) {
+    if (obj[i] === '') {
+      obj[i] = null;
+    }
+  }
+  return obj;
+};
 
 const convertUtcToJst = (obj) => {
   const dateOfTaskGenerated = new Date(obj.dateOfTaskGenerated);
@@ -50,7 +49,7 @@ module.exports = {
     // select task records
     // [option] multiple keys
     let task;
-    if (req.query.id === undefined) {
+    if (req.query.id === undefined || req.query.id === '') {
       task = await taskModel.getAll();
       // utc→jst
       // set selected data
@@ -60,55 +59,83 @@ module.exports = {
       }
       //responseObj.data = task;
       responseObj.data = taskConverted;
+      res.json(responseObj);
     } else {
-      const id = parseInt(req.query.id);
-      task = await taskModel.getById(id);
-      // utc→jst
-      task = convertUtcToJst(task);
-      // set selected data
-      responseObj.data = [task];
+      // validation check
+      if (Number.isNaN(parseInt(req.query.id))) {
+        responseObj.result.errorType = 'BusinessError';
+        responseObj.result.message = 'specify the id in numbers';
+        res.status(400);
+        res.json(responseObj);
+      } else {
+        const id = parseInt(req.query.id);
+        task = await taskModel.getById(id);
+        // utc→jst
+        task = convertUtcToJst(task);
+        // set selected data
+        responseObj.data = [task];
+        res.json(responseObj);
+      }
     }
-
-    // set response
-    res.json(responseObj);
   },
 
   async insertOrUpdateTask(req, res) {
-    // [option] validation check
-
     // response object
     // set initial value
     const responseObj = new response();
 
-    // refill
-    const {
-      id,
-      taskDescription,
-      taskStatus,
-      dateOfTaskGenerated,
-      dateOfDeadline,
-      businessOrPrivateLife,
-    } = req.body;
-    const payload = {
-      id: id,
-      task_description: taskDescription,
-      task_status: taskStatus,
-      date_of_task_generated: dateOfTaskGenerated,
-      date_of_deadline: dateOfDeadline,
-      business_or_private_life: businessOrPrivateLife,
-    };
+    // replace empty with null
+    req.body = replaceEmptyWithNull(req.body);
 
-    // insert or update
-    const task = await taskModel.getById(req.body.id);
-    if (task === undefined) {
-      await taskModel.insertTask(payload);
+    // validation check
+    if (req.body.id === null) {
+      responseObj.result.errorType = 'BusinessError';
+      responseObj.result.message = 'id is required item';
+      res.status(400);
+      res.json(responseObj);
     } else {
-      // [option] unique check
-      await taskModel.updateTask(req.body.id, payload);
-    }
+      // refill
+      const {
+        id,
+        taskDescription,
+        taskStatus,
+        dateOfTaskGenerated,
+        dateOfDeadline,
+        businessOrPrivateLife,
+      } = req.body;
+      const payload = {
+        id: id,
+        task_description: taskDescription,
+        task_status: taskStatus,
+        date_of_task_generated: dateOfTaskGenerated,
+        date_of_deadline: dateOfDeadline,
+        business_or_private_life: businessOrPrivateLife,
+      };
 
-    // set response
-    res.json(responseObj);
+      // insert or update
+      const task = await taskModel.getById(req.body.id);
+      if (task === undefined) {
+        try {
+          await taskModel.insertTask(payload);
+        } catch (e) {
+          responseObj.result.errorType = 'SystemError';
+          responseObj.result.message = 'system error has occured';
+          res.status(500);
+        }
+      } else {
+        // [option] unique check
+        try {
+          await taskModel.updateTask(req.body.id, payload);
+        } catch (e) {
+          responseObj.result.errorType = 'SystemError';
+          responseObj.result.message = 'system error has occured';
+          res.status(500);
+        }
+      }
+
+      // set response
+      res.json(responseObj);
+    }
   },
 
   async deleteTask(req, res) {

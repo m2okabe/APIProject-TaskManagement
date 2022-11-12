@@ -1,4 +1,69 @@
-## リクエスト/レスポンス
+## Request / Response
+
+<br/>
+
+### GET Request - get all tasks
+
+- GET /api/taskManagement/tasks
+
+### GET Response - get all tasks
+
+```json
+{
+  "result": {
+    "status": "SUCCESS",
+    "errorType": "",
+    "message": "succeeded"
+  },
+  "data": [
+    {
+      "id": 1,
+      "taskDescription": "answer survey",
+      "taskStatus": "working",
+      "dateOfTaskGenerated": "2022-10-12",
+      "dateOfDeadline": "2022-10-22",
+      "businessOrPrivateLife": "business"
+    },
+    {
+      "id": 2,
+      "taskDescription": "review API test ducument",
+      "taskStatus": "waiting",
+      "dateOfTaskGenerated": "2022-10-14",
+      "dateOfDeadline": "2022-10-24",
+      "businessOrPrivateLife": "business"
+    }
+  ]
+}
+```
+
+<br/>
+
+### GET Request - ID selection
+
+- GET /api/taskManagement/tasks
+  - ?id=1
+
+### GET Response - ID selection
+
+```json
+{
+  "result": {
+    "status": "SUCCESS",
+    "errorType": "",
+    "message": "succeeded"
+  },
+  "data": [
+    {
+      "id": 1,
+      "taskDescription": "answer survey",
+      "taskStatus": "working",
+      "dateOfTaskGenerated": "2022-10-12",
+      "dateOfDeadline": "2022-10-22",
+      "businessOrPrivateLife": "business"
+    }
+  ]
+}
+```
 
 <br/>
 
@@ -33,44 +98,6 @@
 
 <br/>
 
-### GET Request
-
-- GET /api/taskManagement/tasks
-- QueryString
-  - ?id=1&&task=survey
-
-### GET Response
-
-```json
-{
-  "result": {
-    "status": "SUCCESS",
-    "errorType": "",
-    "message": "succeeded"
-  },
-  "data": [
-    {
-      "id": 12,
-      "taskDescription": "answer survey",
-      "taskStatus": "working",
-      "dateOfTaskGenerated": "2022-10-12",
-      "dateOfDeadline": "2022-10-22",
-      "businessOrPrivateLife": "business"
-    },
-    {
-      "id": 14,
-      "taskDescription": "review API test ducument",
-      "taskStatus": "waiting",
-      "dateOfTaskGenerated": "2022-10-14",
-      "dateOfDeadline": "2022-10-24",
-      "businessOrPrivateLife": "business"
-    }
-  ]
-}
-```
-
-<br/>
-
 ### DELETE Request
 
 - DELETE /api/taskManagement/tasks
@@ -92,7 +119,7 @@
 
 <br/>
 
-HTTP ステータス バリエーション
+### HTTP status variations
 
 ```
 200：正常終了時
@@ -102,7 +129,7 @@ HTTP ステータス バリエーション
 
 <br/>
 
-errorType バリエーション
+### ErrorType variations
 
 ```
 ""：正常終了時
@@ -114,17 +141,7 @@ errorType バリエーション
 
 ## テーブル定義
 
-| id  | task_description | task_status | date_of_task_generated   | date_of_deadline   | business_or_private_life |
-| --- | ---------------- | ----------- | ------------------------ | ------------------ | ------------------------ |
-| 1   | タスク内容       | タスク状況  | タスク発生タイムスタンプ | 期限タイムスタンプ | business                 |
-| 2   | タスク内容       | タスク状況  | タスク発生タイムスタンプ | 期限タイムスタンプ | private                  |
-
-task_status バリエーション
-
-```
-working：着手
-waiting：未着手
-completed：完了
-discontinued：中止
-pending：保留
-```
+| id  | task_description | task_status | date_of_task_generated | date_of_deadline | business_or_private_life |
+| --- | ---------------- | ----------- | ---------------------- | ---------------- | ------------------------ |
+| 1   |                  |             |                        |                  |                          |
+| 2   |                  |             |                        |                  |                          |
