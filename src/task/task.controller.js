@@ -56,8 +56,6 @@ module.exports = {
     // set initial value
     const responseObj = new response();
 
-    // [option] validation check
-
     // select task records
     // [option] multiple keys
     let task;
@@ -71,6 +69,7 @@ module.exports = {
       }
       //responseObj.data = task;
       responseObj.data = taskConverted;
+      res.status(200);
       res.json(responseObj);
     } else {
       // validation check
