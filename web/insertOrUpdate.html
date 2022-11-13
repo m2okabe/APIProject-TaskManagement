@@ -1,70 +1,70 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang='ja'>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset='UTF-8' />
     <title>ToDoList</title>
     <style></style>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel='stylesheet' type='text/css' href='style.css' />
   </head>
   <body>
     <h1>Insert or Update ToDo</h1>
 
     </div>
-    <div class="list">
+    <div class='list'>
       <ul>
-        <li>ID: <input type="text" name="id" id="id" class="textbox"/></li>
-        <li>task description: <input type="text" name="taskDescription" id="taskDescription" class="textbox"/></li>
+        <li>ID: <input type='text' name='id' id='id' class='textbox'/></li>
+        <li>task description: <input type='text' name='taskDescription' id='taskDescription' class='textbox'/></li>
         <li>
           task status:
-          <select name="taskStatus"  id="taskStatus" class="same-width-list"> 
-            <option value="waiting">waiting</option>
-            <option value="working">working</option>
-            <option value="completed">completed</option>
-            <option value="discontinued">discontinued</option>
-            <option value="pending">pending</option>
+          <select name='taskStatus'  id='taskStatus' class='same-width-list'> 
+            <option value='waiting'>waiting</option>
+            <option value='working'>working</option>
+            <option value='completed'>completed</option>
+            <option value='discontinued'>discontinued</option>
+            <option value='pending'>pending</option>
           </select>
         </li>
         <li>
           date of task generated:
-          <input type="text" name="dateOfTaskGenerated" id="dateOfTaskGenerated" value="yyyy-mm-dd" class="textbox"/>
+          <input type='text' name='dateOfTaskGenerated' id='dateOfTaskGenerated' value='yyyy-mm-dd' class='textbox'/>
         </li>
         <li>
           date of task deadline:
-          <input type="text" name="dateOfDeadline"  id="dateOfDeadline" value="yyyy-mm-dd" class="textbox"/>
+          <input type='text' name='dateOfDeadline'  id='dateOfDeadline' value='yyyy-mm-dd' class='textbox'/>
         </li>
         <li>
           business or private life:
-          <select name="businessOrPrivateLife" id="businessOrPrivateLife" class="same-width-list">
-            <option value="business">business</option>
-            <option value="private">private</option>
+          <select name='businessOrPrivateLife' id='businessOrPrivateLife' class='same-width-list'>
+            <option value='business'>business</option>
+            <option value='private'>private</option>
           </select>
         </li>
       </ul>
     </div>
-    <div class="button001">
+    <div class='button001'>
         <button onclick="location.href='./index.html'">move to todo list</button>
-        <button id="send">submit</button>
+        <button id='send'>submit</button>
     </div>
-    <div class = "messageArea">
-      <p id="message">submit result is ... </p>
-      <p id="errorType"></p>
+    <div class = 'messageArea'>
+      <p id='message'>submit result is ... </p>
+      <p id='errorType'></p>
   </div>
     <script>
-        document.getElementById("send").onclick = function() {
-          const id = document.getElementById("id").value;
-          const taskDescription = document.getElementById("taskDescription").value;
-          const taskStatus = document.getElementById("taskStatus").value;
-          const dateOfTaskGenerated = document.getElementById("dateOfTaskGenerated").value;
-          const dateOfDeadline = document.getElementById("dateOfDeadline").value;
-          const businessOrPrivateLife = document.getElementById("businessOrPrivateLife").value;
+        document.getElementById('send').onclick = function() {
+          const id = document.getElementById('id').value;
+          const taskDescription = document.getElementById('taskDescription').value;
+          const taskStatus = document.getElementById('taskStatus').value;
+          const dateOfTaskGenerated = document.getElementById('dateOfTaskGenerated').value;
+          const dateOfDeadline = document.getElementById('dateOfDeadline').value;
+          const businessOrPrivateLife = document.getElementById('businessOrPrivateLife').value;
 
           const json ={
-             "id": id,
-             "taskDescription": taskDescription,
-             "taskStatus": taskStatus,
-              "dateOfTaskGenerated":dateOfTaskGenerated,
-              "dateOfDeadline": dateOfDeadline,
-              "businessOrPrivateLife": businessOrPrivateLife
+             'id': id,
+             'taskDescription': taskDescription,
+             'taskStatus': taskStatus,
+              'dateOfTaskGenerated':dateOfTaskGenerated,
+              'dateOfDeadline': dateOfDeadline,
+              'businessOrPrivateLife': businessOrPrivateLife
           };
           fetch('./api/taskManagement/tasks', { 
             method: 'POST',
@@ -77,13 +77,13 @@
             return response.json();
           })
           .then(res => {
-            const message = document.getElementById("message");
+            const message = document.getElementById('message');
             const messageContents = message.innerHTML.slice(0,21);
-            message.innerHTML=messageContents + res.result.message + "!";
+            message.innerHTML=messageContents + res.result.message + '!';
           }).catch(error => {
-            const message = document.getElementById("message");
+            const message = document.getElementById('message');
             message.innerHTML=res.result.message;
-            const errorType = document.getElementById("errorType");
+            const errorType = document.getElementById('errorType');
             errorType.innerHTML=res.result.errorType;
           });
         };

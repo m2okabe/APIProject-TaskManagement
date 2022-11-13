@@ -12,9 +12,15 @@
       <ul id="todo-container"></ul>
     </div>
     <div class="button001">
-      <button onclick="location.href='./insertOrUpdate.html'">move to insert/update</button>
+      <button onclick="location.href='./insertOrUpdate.html'">move to todo list</button>
+      <button id='send'>delete task</button>
+    </div>
+    <div class = "messageArea">
+      <p id="message">submit result is ... </p>
+      <p id="errorType"></p>
     </div>
     <script>
+      // init
       fetch('./api/taskManagement/tasks', { method: 'GET' })
         .then((response) => {
           return response.json();
@@ -23,12 +29,13 @@
           const todoContainer = document.querySelector('#todo-container');
           // create table header
           headerList = [
+            'delete?',
             'ID',
             'description',
             'status',
             'date of task generated',
             'date of deadline',
-            'business or private life',
+            'business or private life'
           ];
           const tr = document.createElement('tr');
           todoContainer.appendChild(tr);
@@ -41,6 +48,14 @@
             // create table row
             const tr = document.createElement('tr');
             todoContainer.appendChild(tr);
+            // add radio button 
+            const radioElement = document.createElement('input');
+            radioElement.type = 'radio';
+            radioElement.name = 'deleteTarget'
+            radioElement.value = task.id;
+            const td = document.createElement('td');
+            td.appendChild(radioElement)
+            tr.appendChild(td);
             // create table data of row
             const objArray = Object.entries(task);
             objArray.forEach((arr) => {
@@ -50,6 +65,34 @@
             });
           });
         });
+
+        // delete button event
+        document.getElementById('send').onclick = function() {
+          const deleteTarget = document.getElementsByName('deleteTarget');
+          let length = deleteTarget.length;
+          let checkValue;
+          for (let i=0; i<length; i++){
+            if (deleteTarget[i].checked){
+              checkValue = deleteTarget[i].value;
+            }
+          }
+          fetch(`./api/taskManagement/tasks?id=${checkValue}`, { 
+            method: 'DELETE',
+          })
+          .then(response => {
+            return response.json();
+          })
+          .then(res => {
+            const message = document.getElementById("message");
+            const messageContents = message.innerHTML.slice(0,21);
+            message.innerHTML=messageContents + res.result.message + "!";
+          }).catch(error => {
+            const message = document.getElementById("message");
+            message.innerHTML=res.result.message;
+            const errorType = document.getElementById("errorType");
+            errorType.innerHTML=res.result.errorType;
+          });
+        };
     </script>
   </body>
 </html>

@@ -1,6 +1,16 @@
-## Request / Response
+# ToDo Management App
 
+## how start this app
+
+`npm i`
 <br/>
+`npm run start`
+<br/>
+open browser and navigate to `localhost:3000`
+<br/>
+<br/>
+
+## request / response
 
 ### GET Request - get all tasks
 
@@ -122,9 +132,9 @@
 ### HTTP status variations
 
 ```
-200：正常終了時
-400：業務例外発生時
-500：システム例外発生時
+200：succeeded
+400：BusinessError occurred
+500：SystemError occurred
 ```
 
 <br/>
@@ -132,14 +142,14 @@
 ### ErrorType variations
 
 ```
-""：正常終了時
-"BusinessError"：業務例外発生時
-"SystemError"：システム例外発生時
+""：succeeded
+"BusinessError"：BusinessError occurred
+"SystemError"：SystemError occurred
 ```
 
 <br/>
 
-## テーブル定義
+## table defenition
 
 | id  | task_description | task_status | date_of_task_generated | date_of_deadline | business_or_private_life |
 | --- | ---------------- | ----------- | ---------------------- | ---------------- | ------------------------ |

@@ -143,13 +143,19 @@ module.exports = {
     // set initial value
     const responseObj = new response();
 
-    // [option] validation check
+    // validation check
+    if (Number.isNaN(parseInt(req.query.id))) {
+      responseObj.result.errorType = 'BusinessError';
+      responseObj.result.message = 'please select delete target';
+      res.status(400);
+      res.json(responseObj);
+    } else {
+      // delete task records
+      const id = parseInt(req.query.id);
+      await taskModel.deleteTask(id);
 
-    // delete task records
-    const id = parseInt(req.query.id);
-    await taskModel.deleteTask(id);
-
-    // set response
-    res.json(responseObj);
+      // set response
+      res.json(responseObj);
+    }
   },
 };
