@@ -84,12 +84,12 @@ open browser and navigate to `localhost:3000`
 
 ```json
 {
-  "result": {
-    "status": "SUCCESS",
-    "errorType": "",
-    "message": "succeeded"
-  },
-  "data": {}
+  "id": 5,
+  "taskDescription": "descriptionTest5",
+  "taskStatus": "waiting",
+  "dateOfTaskGenerated": "2022-10-05",
+  "dateOfDeadline": "2022-10-15",
+  "businessOrPrivateLife": "private"
 }
 ```
 
