@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "2df44f44-8793-4307-a1e5-3658d1711605",
+		"name": "APIProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24326865"
+	},
+	"item": [
+		{
+			"name": "api/taskManagement/tasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/taskManagement/tasks?id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"taskManagement",
+						"tasks"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/taskManagement/tasks",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 5,\r\n    \"taskDescription\": \"descriptionTest5\",\r\n    \"taskStatus\": \"waiting\",\r\n    \"dateOfTaskGenerated\": \"2022-10-05\",\r\n    \"dateOfDeadline\": \"\",\r\n    \"businessOrPrivateLife\": \"private\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/taskManagement/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"taskManagement",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/taskManagement/tasks",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/taskManagement/tasks?id=4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"taskManagement",
+						"tasks"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
