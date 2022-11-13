@@ -57,7 +57,6 @@
           const dateOfTaskGenerated = document.getElementById('dateOfTaskGenerated').value;
           const dateOfDeadline = document.getElementById('dateOfDeadline').value;
           const businessOrPrivateLife = document.getElementById('businessOrPrivateLife').value;
-
           const json ={
              'id': id,
              'taskDescription': taskDescription,
@@ -66,6 +65,7 @@
               'dateOfDeadline': dateOfDeadline,
               'businessOrPrivateLife': businessOrPrivateLife
           };
+          const message = document.getElementById('message');
           fetch('./api/taskManagement/tasks', { 
             method: 'POST',
             headers: {
@@ -77,11 +77,9 @@
             return response.json();
           })
           .then(res => {
-            const message = document.getElementById('message');
             const messageContents = message.innerHTML.slice(0,21);
             message.innerHTML=messageContents + res.result.message + '!';
           }).catch(error => {
-            const message = document.getElementById('message');
             message.innerHTML=res.result.message;
             const errorType = document.getElementById('errorType');
             errorType.innerHTML=res.result.errorType;

@@ -1,8 +1,14 @@
 const taskModel = require('./task.model');
 const response = require('../response');
 const fdateFnsTimezone = require('date-fns-timezone');
+
+//constant
 const FORMAT = 'YYYY-MM-DD HH:mm:ss';
 const TIME_ZONE_TOKYO = 'Asia/Tokyo';
+const RESULT_STATUS_ERROR = 'ERROR';
+const RESULT_MESSAGE_SYSTEM_ERROR = 'system error has occured';
+const RESULT_ERROR_TYPE_BUSINESS_ERROR = 'BusinessError';
+const RESULT_ERROR_TYPE_SYSTEM_ERROR = 'SystemError';
 
 const replaceEmptyWithNull = (obj) => {
   for (let i in obj) {
@@ -36,6 +42,12 @@ const convertUtcToJst = (obj) => {
   return obj;
 };
 
+const setSystemErrorResponse = (responseObj) => {
+  responseObj.result.status = RESULT_STATUS_ERROR;
+  responseObj.result.errorType = RESULT_ERROR_TYPE_SYSTEM_ERROR;
+  responseObj.result.message = RESULT_MESSAGE_SYSTEM_ERROR;
+};
+
 module.exports = {
   //[option] add getAll
   //[option] add querystring
@@ -63,18 +75,26 @@ module.exports = {
     } else {
       // validation check
       if (Number.isNaN(parseInt(req.query.id))) {
-        responseObj.result.errorType = 'BusinessError';
+        responseObj.result.status = RESULT_STATUS_ERROR;
+        responseObj.result.errorType = RESULT_ERROR_TYPE_BUSINESS_ERROR;
         responseObj.result.message = 'specify the id in numbers';
         res.status(400);
         res.json(responseObj);
       } else {
         const id = parseInt(req.query.id);
-        task = await taskModel.getById(id);
-        // utc→jst
-        task = convertUtcToJst(task);
-        // set selected data
-        responseObj.data = [task];
-        res.json(responseObj);
+        try {
+          task = await taskModel.getById(id);
+          // utc→jst
+          task = convertUtcToJst(task);
+          // set selected data
+          responseObj.data = [task];
+          res.status(200);
+        } catch (e) {
+          setSystemErrorResponse(responseObj);
+          res.status(500);
+        } finally {
+          res.json(responseObj);
+        }
       }
     }
   },
@@ -89,7 +109,8 @@ module.exports = {
 
     // validation check
     if (req.body.id === null) {
-      responseObj.result.errorType = 'BusinessError';
+      responseObj.result.status = RESULT_STATUS_ERROR;
+      responseObj.result.errorType = RESULT_ERROR_TYPE_BUSINESS_ERROR;
       responseObj.result.message = 'id is required item';
       res.status(400);
       res.json(responseObj);
@@ -117,24 +138,25 @@ module.exports = {
       if (task === undefined) {
         try {
           await taskModel.insertTask(payload);
+          res.status(200);
         } catch (e) {
-          responseObj.result.errorType = 'SystemError';
-          responseObj.result.message = 'system error has occured';
+          setSystemErrorResponse(responseObj);
           res.status(500);
+        } finally {
+          res.json(responseObj);
         }
       } else {
         // [option] unique check
         try {
           await taskModel.updateTask(req.body.id, payload);
+          res.status(200);
         } catch (e) {
-          responseObj.result.errorType = 'SystemError';
-          responseObj.result.message = 'system error has occured';
+          setSystemErrorResponse(responseObj);
           res.status(500);
+        } finally {
+          res.json(responseObj);
         }
       }
-
-      // set response
-      res.json(responseObj);
     }
   },
 
@@ -145,17 +167,23 @@ module.exports = {
 
     // validation check
     if (Number.isNaN(parseInt(req.query.id))) {
-      responseObj.result.errorType = 'BusinessError';
-      responseObj.result.message = 'please select delete target';
+      responseObj.result.status = RESULT_STATUS_ERROR;
+      responseObj.result.errorType = RESULT_ERROR_TYPE_BUSINESS_ERROR;
+      responseObj.result.message = 'specify the id in numbers';
       res.status(400);
       res.json(responseObj);
     } else {
       // delete task records
       const id = parseInt(req.query.id);
-      await taskModel.deleteTask(id);
-
-      // set response
-      res.json(responseObj);
+      try {
+        await taskModel.deleteTask(id);
+        res.status(200);
+      } catch (e) {
+        setSystemErrorResponse(responseObj);
+        res.status(500);
+      } finally {
+        res.json(responseObj);
+      }
     }
   },
 };

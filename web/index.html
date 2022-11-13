@@ -76,22 +76,26 @@
               checkValue = deleteTarget[i].value;
             }
           }
-          fetch(`./api/taskManagement/tasks?id=${checkValue}`, { 
-            method: 'DELETE',
-          })
-          .then(response => {
-            return response.json();
-          })
-          .then(res => {
+          const message = document.getElementById("message");
+          const messageContents = message.innerHTML.slice(0,21);
+          if(checkValue === undefined){
             const message = document.getElementById("message");
-            const messageContents = message.innerHTML.slice(0,21);
-            message.innerHTML=messageContents + res.result.message + "!";
-          }).catch(error => {
-            const message = document.getElementById("message");
-            message.innerHTML=res.result.message;
-            const errorType = document.getElementById("errorType");
-            errorType.innerHTML=res.result.errorType;
-          });
+            message.innerHTML = messageContents + 'please select delete target'+ "!";
+          } else {
+            fetch(`./api/taskManagement/tasks?id=${checkValue}`, { 
+              method: 'DELETE',
+            })
+           .then(response => {
+             return response.json();
+           })
+           .then(res => {
+              message.innerHTML=messageContents + res.result.message + "!";
+           }).catch(error => {
+              message.innerHTML = res.result.message;
+              const errorType = document.getElementById("errorType");
+             errorType.innerHTML = res.result.errorType;
+            });
+         }
         };
     </script>
   </body>
