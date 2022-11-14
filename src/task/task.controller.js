@@ -1,6 +1,7 @@
 const taskModel = require('./task.model');
 const response = require('../response');
 const fdateFnsTimezone = require('date-fns-timezone');
+const { validationResult } = require('express-validator/check');
 
 //constant
 const FORMAT = 'YYYY-MM-DD HH:mm:ss';
@@ -10,6 +11,7 @@ const RESULT_MESSAGE_SYSTEM_ERROR = 'system error has occured';
 const RESULT_ERROR_TYPE_BUSINESS_ERROR = 'BusinessError';
 const RESULT_ERROR_TYPE_SYSTEM_ERROR = 'SystemError';
 
+// utility
 const replaceEmptyWithNull = (obj) => {
   for (let i in obj) {
     if (obj[i] === '') {
@@ -73,10 +75,13 @@ module.exports = {
       res.json(responseObj);
     } else {
       // validation check
-      if (Number.isNaN(parseInt(req.query.id))) {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
         responseObj.result.status = RESULT_STATUS_ERROR;
         responseObj.result.errorType = RESULT_ERROR_TYPE_BUSINESS_ERROR;
-        responseObj.result.message = 'specify the id in numbers';
+        console.log({ errors: errors.array() });
+        responseObj.result.message =
+          'ID is required item. Please enter a 1-4 digit number';
         res.status(400);
         res.json(responseObj);
       } else {
@@ -107,10 +112,13 @@ module.exports = {
     req.body = replaceEmptyWithNull(req.body);
 
     // validation check
-    if (req.body.id === null) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
       responseObj.result.status = RESULT_STATUS_ERROR;
       responseObj.result.errorType = RESULT_ERROR_TYPE_BUSINESS_ERROR;
-      responseObj.result.message = 'id is required item';
+      console.log({ errors: errors.array() });
+      responseObj.result.message =
+        'ID is required item. Please enter a 1-4 digit number';
       res.status(400);
       res.json(responseObj);
     } else {
@@ -168,7 +176,7 @@ module.exports = {
     if (Number.isNaN(parseInt(req.query.id))) {
       responseObj.result.status = RESULT_STATUS_ERROR;
       responseObj.result.errorType = RESULT_ERROR_TYPE_BUSINESS_ERROR;
-      responseObj.result.message = 'specify the id in numbers';
+      responseObj.result.message = 'specify the ID in numbers';
       res.status(400);
       res.json(responseObj);
     } else {
