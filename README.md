@@ -149,7 +149,7 @@ open browser and navigate to `localhost:3000`
 
 <br/>
 
-## table defenition
+## table definition
 
 | id  | task_description | task_status | date_of_task_generated | date_of_deadline | business_or_private_life |
 | --- | ---------------- | ----------- | ---------------------- | ---------------- | ------------------------ |
